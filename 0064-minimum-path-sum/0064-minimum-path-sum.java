@@ -1,28 +1,26 @@
-class Solution {    
-    int[][] matrix;
-        
+class Solution {
     public int minPathSum(int[][] grid) {
-        matrix = grid;        
-        if(grid.length == 0 || grid[0].length == 0) return 0;        
-        int[][] dp=new int[grid.length][grid[0].length];
-        return path(0,0,dp);
+        int m=grid.length;
+        int n=grid[0].length;
+        int[][] dp=new int[m][n];
         
-    }
-    
-    private int path(int i, int j,int[][] dp) {
         
-        if(i==matrix.length-1 && j==matrix[0].length-1){
-            return matrix[i][j];
+        for (int i=0;i<m;i++){
+            for (int j=0;j<n;j++){
+                if (i==0 && j==0) dp[i][j]=grid[0][0];
+                else {
+                int r=0;
+                int b=0;
+                if (i>0) r=grid[i][j]+dp[i-1][j];
+                else r+=Integer.MAX_VALUE;
+                if (j>0) b=grid[i][j]+dp[i][j-1];
+                else b+=Integer.MAX_VALUE;
+                
+                dp[i][j]=Math.min(r,b);
+                }
+            }
         }
-        
-        if(i >= matrix.length || j >= matrix[0].length) {
-            return Integer.MAX_VALUE;
-        }
-        if (dp[i][j]!=0) return dp[i][j];
-        // int l=
-        dp[i][j]=Math.min(path(i+1,j,dp), path(i,j+1,dp)) + matrix[i][j];
-        
-        return Math.min(path(i+1,j,dp), path(i,j+1,dp)) + matrix[i][j];
-        
+        System.out.println(Arrays.deepToString(dp));
+        return dp[m-1][n-1];
     }
 }
