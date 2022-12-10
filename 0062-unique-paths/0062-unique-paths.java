@@ -1,20 +1,25 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        int[][] arr=new int[m][n];
-        return recurse(m-1,n-1,arr); 
+        int[][] dp=new int[m][n];
+        // return recurse(m-1,n-1,arr); 
+        
+        for (int i=0;i<m;i++){
+            for (int j=0;j<n;j++){
+                if (i==0 && j==0) dp[i][j]=1;
+                else {
+                int r=0;
+                int b=0;
+                if (i>0) r=dp[i-1][j];
+                if (j>0) b=dp[i][j-1];
+                dp[i][j]=r+b;
+                }
+            }
+        }
+        System.out.println(Arrays.deepToString(dp));
+        return dp[m-1][n-1];
 
 }
-   static int recurse(int r,int c,int[][] dp){ 
-        if (r==0 && c==0) return 1;
-             
-        if (r<0 || c<0) return 0;
-        if (dp[r][c]!=0) return dp[r][c];
-        int t=recurse(r-1,c,dp);
-        int l=recurse(r,c-1,dp);
-        dp[r][c]=t+l;
-        return t+l;
-     
-    }
+  
    
     
 }
