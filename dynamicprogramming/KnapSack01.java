@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 // public class KnapSack01 {
 //     public static void main(String[] args) {
-//         int bagWeight=5;
-//         int[] weights={3,2,5};
-//         int[] value={30,50,60};
+//         int bagWeight=8;
+//         int[] weights={3,2,5,7};
+//         int[] value={30,50,60,20};
 //         int[][] dp=new int[weights.length][bagWeight+1];
 //         System.out.println(recurse(2, bagWeight,weights,value,dp));
 //         System.out.println(Arrays.deepToString(dp));
@@ -37,24 +37,25 @@ import java.util.Arrays;
 
 public class KnapSack01 {
     public static void main(String[] args) {
-        int bagWeight=5;
-        int[] weights={3,2,5};
+        int bagWeight=4;
+        int[] weights={2,1,3};
         int[] value={30,50,60};
         int[][] dp=new int[weights.length][bagWeight+1];
-        if (bagWeight-weights[0]>=0) dp[0][weights[0]]=value[0];
+        for (int i=weights[0];i<=bagWeight;i++) dp[0][i]=value[0];
         for (int ind=1;ind<weights.length;ind++){
             for (int j=0;j<=bagWeight;j++){
-                int unTake=dp[ind-1][bagWeight];
-                int take=0;
-                if (bagWeight-weights[ind]>=0){
-                    take=value[ind]+dp[ind-1][bagWeight-weights[ind]];
+                int unTake=0 + dp[ind-1][j];
+                int take=-102000000;
+                if (j>=weights[ind]){
+                    take=value[ind]+dp[ind-1][j-weights[ind]];
                 }
-                dp[ind][bagWeight]=Math.max(take, unTake);   
+                dp[ind][j]=Math.max(take, unTake);   
             }
         }
         System.out.println(Arrays.deepToString(dp));
 
         System.out.println(dp[weights.length-1][bagWeight]);
+        
     }
  
 }
