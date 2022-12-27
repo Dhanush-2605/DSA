@@ -9,49 +9,29 @@
  * }
  */
 class Solution {
-    ArrayList<Integer> ans=new ArrayList<>();
+    // ArrayList<Integer> ans=new ArrayList<>();
     public ListNode mergeNodes(ListNode head) {
-        ListNode res=new ListNode();
-        ListNode temp=res;
-        while (head!=null){
-            temp=midSum(head);
-            head=temp;
-        }
-        System.out.println(ans);
-        res.val=-1;
-        res=res.next;
-        ListNode temp1=null;
-        // temps=res;/
-        ListNode temp2=temp1;
-        for (int i=ans.size()-1;i>=0;i--){
-            temp1=insert(temp1,ans.get(i));         
-            
-            
-            // temp1=temp1.next;
-        }
-        return temp1.next;
-
-        
-    }
-    ListNode midSum(ListNode head){
-        ListNode temp=head;
-        ListNode move=head;
+ 
+        ListNode fast=head.next;
+        ListNode slow=head;
+        ListNode temp=slow;
+        ListNode temp2=slow;
         int sum=0;
-        while (move.val!=0){
-            sum+=move.val;
-            move=move.next;
+        while (fast!=null){
+            if (fast.val==0){
+                slow.val=sum;
+                slow.next=fast;
+                temp2=slow;
+                slow=slow.next;
+                sum=0;
+            }
+            sum+=fast.val;
+            fast=fast.next;
         }
+        temp2.next=null;
+        return temp;
 
-        ans.add(sum);
-        return move.next;
         
     }
-    ListNode insert(ListNode head,int val){
-       ListNode cur=new ListNode();
-        cur.val=val;
-        cur.next=head;
-        head=cur;
-        return head;
-        
-    }
+
 }
