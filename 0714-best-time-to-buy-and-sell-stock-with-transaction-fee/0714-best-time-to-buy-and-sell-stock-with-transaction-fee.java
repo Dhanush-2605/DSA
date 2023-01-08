@@ -2,21 +2,23 @@ class Solution {
     public int maxProfit(int[] prices, int fee) {
         int n=prices.length;
         int[][] dp=new int[n+1][2];
-        for (int[] row:dp) Arrays.fill(row,-1);
-        return recurse(0,1,prices,dp,fee);
-        
-    }
-    int recurse(int ind,int buy,int[] prices,int[][] dp,int fee){
-        if (ind==prices.length) return 0;
-        int profit=0;
-        if (dp[ind][buy]!=-1) return dp[ind][buy];
-        if (buy==1){
-        profit=Math.max(-prices[ind]+recurse(ind+1,0,prices,dp,fee),recurse(ind+1,1,prices,dp,fee));
-            
+     
+        for (int ind=n-1;ind>=0;ind--){
+           for (int buy=0;buy<=1;buy++){
+               int profit=0;
+               if (buy==1){
+            profit=Math.max(-prices[ind]+dp[ind+1][0],dp[ind+1][1]);
         }else{
-            profit=Math.max(prices[ind]+recurse(ind+1,1,prices,dp,fee)-fee,recurse(ind+1,0,prices,dp,fee));
+            profit=Math.max(prices[ind]+dp[ind+1][1]-fee,dp[ind+1][0]);
+            
         }
-        return dp[ind][buy]=profit;
+        dp[ind][buy]=profit;   
+            }
+        }
+        return dp[0][1];
+        
+        
+   
     }
     
 }
