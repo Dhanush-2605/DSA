@@ -1,19 +1,19 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n=nums.length;
-        int[][] dp=new int[n][n+1];
-        for (int[] row:dp) Arrays.fill(row,-1);
-        return recurse(0,0,nums,dp);
-    }
-    int recurse(int ind,int prev,int[] nums,int[][] dp){
-        if (ind==nums.length) return 0;
-        if (dp[ind][prev]!=-1) return dp[ind][prev];
-        int unTake=recurse(ind+1,prev,nums,dp);
+        int[][] dp=new int[n+1][n+1];
+        for (int ind=n-1;ind>=0;ind--){
+            for (int prev=n;prev>=0;prev--){
+        int unTake=dp[ind+1][prev];
         int take=Integer.MIN_VALUE;
         if (prev==0 || nums[ind]>nums[prev-1]){
-            take=1+recurse(ind+1,ind+1,nums,dp);
+            take=1+dp[ind+1][ind+1];
         }
-        return dp[ind][prev]=Math.max(take,unTake);
-
+         dp[ind][prev]=Math.max(take,unTake);
+                
+            }
+        }
+        return dp[0][0];
     }
+
 }
