@@ -1,3 +1,5 @@
+//ITERATIVE SOLUTION IS MORE INTUITIVE THAN RECURSIVE SOLUTION
+
 class Solution {
     public int countSquares(int[][] matrix) {
         int row=matrix.length;
