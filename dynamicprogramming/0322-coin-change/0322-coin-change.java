@@ -1,33 +1,22 @@
-
-// TC-> MORE THAN 2 POWER N;
-// SC -> MORE THAN N
 class Solution {
     public int coinChange(int[] coins, int amount) {
-
-        int[][] dp=new int[coins.length][amount+1];
-        for (int i=0;i<=amount;i++){
-            if (i%coins[0]==0){
-
-            dp[0][i]=i/coins[0];
-            }
-            else dp[0][i]=(int)Math.pow(10,9);
-        };
-        
-        
-        
-        for (int ind=1;ind<coins.length;ind++){
-            for (int target=0;target<=amount;target++){
-           int unTake=0+dp[ind-1][target];
-           int take=(int)Math.pow(10,9);
-            if (target>=coins[ind]) take=1+dp[ind][target-coins[ind]];
-            dp[ind][target]=Math.min(take,unTake);             
-            }
-        }
-        int res=dp[coins.length-1][amount];
-        System.out.println(res);
-        if (res>=(int)Math.pow(10,9)) return -1;
-        else return res;
-        
+        int n=coins.length;
+       int[][] dp=new int[n][amount+1];
+        for (int[] rows:dp) Arrays.fill(rows,-1);
+        int ans=recurse(n-1,coins,amount,dp);
+        if (ans==(int)Math.pow(10,9)) return -1;
+        return ans;
     }
-
+    int recurse(int ind,int[] coins,int amount,int[][] dp){
+        if (ind==0){
+            if (amount%coins[ind]==0) return amount/coins[ind];
+             return (int)Math.pow(10,9);
+            
+        }
+        if (dp[ind][amount]!=-1) return dp[ind][amount];
+        int notTake=recurse(ind-1,coins,amount,dp);
+        int take=Integer.MAX_VALUE;
+        if (amount>=coins[ind]) take=1+recurse(ind,coins,amount-coins[ind],dp);
+        return dp[ind][amount]=Math.min(notTake,take);
+    }
 }
