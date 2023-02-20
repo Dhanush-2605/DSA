@@ -1,31 +1,34 @@
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
-        List<Integer> res=new ArrayList<>();
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
         int V=graph.length;
-        boolean[] visited=new boolean[V]; 
-        boolean[] path=new boolean[V];
-        boolean[] check=new boolean[V];
-        for (int i=0;i<V;i++){
-            if (visited[i]==false) Dfs(graph,visited,path,i,check);
-        }
-        for (int i=0;i<V;i++){
-            if (check[i]==true) res.add(i);
-        }
-        return res;
+    for (int i=0;i<V;i++){
+        ArrayList<Integer> l=new ArrayList<>();
+        adj.add(l);
     }
-    boolean Dfs(int[][] graph,boolean[] visited,boolean[] path,int node,boolean[] check){
-        visited[node]=true;
-        path[node]=true;
-        for (int val:graph[node]){
-            if (visited[val]==false){
-                if (Dfs(graph,visited,path,val,check)==true) return true;
-            }
-            else{
-                if (path[val]) return true;
+        for (int i=0;i<V;i++){
+            for (int val:graph[i]){
+                adj.get(val).add(i);
             }
         }
-        check[node]=true;
-        path[node]=false;
-        return false;
+        int[] inDegree=new int[V];
+        for (int i=0;i<V;i++){
+            for (int val:adj.get(i)) inDegree[val]++;
+        }
+        Queue<Integer> q=new LinkedList<>();
+        for (int i=0;i<V;i++){
+          if (inDegree[i]==0) q.add(i);
+    }   
+        List<Integer> res=new ArrayList<>();
+        while (!q.isEmpty()){
+            int cur=q.poll();
+            if (inDegree[cur]==0) res.add(cur);
+            for (int val:adj.get(cur)){
+                inDegree[val]--;
+                if (inDegree[val]==0) q.add(val);
+            }
+        }
+        Collections.sort(res);
+        return res;
     }
 }
