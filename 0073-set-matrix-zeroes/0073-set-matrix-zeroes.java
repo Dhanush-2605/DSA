@@ -1,29 +1,30 @@
-class Solution {
+
+class Solution {   
 
     
     public void setZeroes(int[][] matrix) {
     int row=matrix.length;
     int col=matrix[0].length;
-    int[][] res=new int[row][col];
+    HashMap<ArrayList<Integer>,Boolean> map=new HashMap<>();
     for (int i=0;i<row;i++){
         for (int j=0;j<col;j++){
-            res[i][j]=matrix[i][j];
-        }
-    }
-    for (int i=0;i<row;i++){
-        for (int j=0;j<col;j++){
-            if (matrix[i][j]==0){
-
-                fillZeros(i,j,res,row,col);
+            String ind="";
+            ind+=String.valueOf(i)+String.valueOf(j);
+            ArrayList<Integer> l=new ArrayList<>();
+            l.add(i);
+            l.add(j);
+            if (matrix[i][j]==0){                
+                map.put(l,true);
             }
         }
+    }
+ for (Map.Entry<ArrayList<Integer>,Boolean> mapElement : map.entrySet()) {
+            fillZeros(mapElement.getKey().get(0),mapElement.getKey().get(1),matrix,row,col);
 
-    }
-for (int i=0;i<row;i++){
-    for (int j=0;j<col;j++){
-        matrix[i][j]=res[i][j];
-    }
-}
+        
+        }       
+
+
     
     }
 void fillZeros(int r,int c,int[][] res,int row,int col){
