@@ -1,35 +1,36 @@
 class Solution {
     public String decodeString(String s) {
         Stack<String> st=new Stack<>();
-        int l=s.length();
-        ArrayList<String> arr=new ArrayList<>();
-        for (int i=0;i<10;i++){
-            arr.add(String.valueOf(i));
-        }
-        for (int i=0;i<l;i++){
-            if (s.charAt(i)!=']') st.push(Character.toString(s.charAt(i)));
+        int i=s.length()-1;
+        while (i>=0){
+            String cur=String.valueOf(s.charAt(i));
+            if (!cur.equals("[")) st.push(cur);
             else{
-                String cur="";
-                while (!st.peek().equals("[")){
-                    cur=st.pop()+cur;
+                String newStr="";
+                while (!st.isEmpty() && !st.peek().equals("]")){
+                    newStr=newStr+st.pop();
                 }
-
                 st.pop();
-                String k="";
-                while (!st.isEmpty() && arr.contains(st.peek())){
-                    k=st.pop()+k;
+                i--;
+                int num=0;
+                int p=0;
+                while (i>=0 && Character.isDigit(s.charAt(i))){
+                int digit=Character.getNumericValue(s.charAt(i));
+                num+=(int)digit*Math.pow(10,p);
+                p++;
+                i--;
                 }
-                int num=1;
-                if (k.length()>=1) num=Integer.parseInt(k);
-                st.push(cur.repeat(num));
-                
+                newStr=newStr.repeat(num);
+                st.push(newStr);
+                i++;
             }
-}
-        String ans="";
-        while (!st.isEmpty()){
-            ans=st.pop()+ans;
+            i--;
         }
-        return ans;
+        String res="";
+        while (!st.isEmpty()){
+            res+=st.pop();
+        }
+        return res;
         
     }
 }
