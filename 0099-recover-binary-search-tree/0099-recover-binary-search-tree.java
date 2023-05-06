@@ -14,24 +14,43 @@
  * }
  */
 class Solution {
-    int ind=0;
+    TreeNode prev;
+    TreeNode first;
+    TreeNode middle;
+    TreeNode last;
     public void recoverTree(TreeNode root) {
-        ArrayList<Integer> arr=new ArrayList<>();
-        inorder(root,arr);
-        Collections.sort(arr);
-        traverse(root,arr);
+        first=middle=last=null;
+        prev=null;
+        inorder(root);
+        if (first!=null && last!=null){
+            int temp=first.val;
+            first.val=last.val;
+            last.val=temp;
+        }
+        else if (first!=null && middle!=null){
+            int temp=first.val;
+            first.val=middle.val;
+            middle.val=temp;
+        }
+        
+    
     }
-    void inorder(TreeNode root,ArrayList<Integer> arr){
+    void inorder(TreeNode root){
         if (root==null) return;
-        inorder(root.left,arr);
-        arr.add(root.val);
-        inorder(root.right,arr);
+        inorder(root.left);
+        if (prev!=null && (root.val<prev.val)){
+            
+            if (first==null){
+                first=prev;
+                middle=root;
+            }
+            else{
+                last=root;
+            }
+            
+        }
+        prev=root;
+        inorder(root.right);
     }
-    void traverse(TreeNode root,ArrayList<Integer> arr){
-        if (root==null) return;
-        traverse(root.left,arr);
-        if (root.val!=arr.get(ind)) root.val=arr.get(ind);
-        ind++;
-        traverse(root.right,arr);
-    }
+
 }
