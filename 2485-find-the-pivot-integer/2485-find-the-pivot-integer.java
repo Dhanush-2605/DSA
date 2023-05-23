@@ -1,17 +1,13 @@
 class Solution {
     public int pivotInteger(int n) {
-        int l=1;
-        int r=n;
-        while (r>=l){
-            int mid=l+(r-l)/2;
-            int lSum=0;
-            int rSum=0;
-            for (int i=1;i<=mid;i++) lSum+=i;
-            for (int j=mid;j<=n;j++) rSum+=j;
-            if (lSum==rSum) return mid;
-            if (rSum>lSum)l=mid+1;
-            else r=mid-1;
-            
+        int sum=0;
+        int lsum=0;
+        int rsum=0;
+        for (int i=1;i<=n;i++) sum+=i;
+        for (int i=1;i<=n;i++){
+            lsum+=i;
+            rsum=sum-lsum;
+            if (lsum==rsum+i) return i;
         }
         return -1;
     }
