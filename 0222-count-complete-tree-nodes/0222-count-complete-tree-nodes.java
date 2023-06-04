@@ -14,17 +14,17 @@
  * }
  */
 class Solution {
-    List<Integer> res=new ArrayList<>();
+    int c=0;
     public int countNodes(TreeNode root) {
         inorder(root);
-        return res.size();
+        return c;
         
     }
     
     void inorder(TreeNode root){
         if (root==null) return;
         inorder(root.left);
-        res.add(root.val);
+        c++;
         inorder(root.right);
         
         
