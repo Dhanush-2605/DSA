@@ -1,19 +1,17 @@
 class Solution {
     public int deleteGreatestValue(int[][] grid) {
         int res=0;
-        int r=grid.length;
-        int c=grid[0].length;
         for (int[] arr:grid){
             Arrays.sort(arr);
         }
-        for (int i=c-1;i>=0;i--){
-            int max=-1;
-            for (int j=0;j<r;j++){
-                max=Math.max(max,grid[j][i]);
-                
+        int c=grid[0].length-1;
+        int r=grid.length;
+        for (int i=c;i>=0;i--){
+            int temp=Integer.MIN_VALUE;
+            for(int j=0;j<r;j++){
+                temp=Math.max(grid[j][i],temp);
             }
-
-            res+=max;
+            res+=temp;
         }
         return res;
         
