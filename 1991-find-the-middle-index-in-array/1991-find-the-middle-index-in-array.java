@@ -1,22 +1,22 @@
 class Solution {
     public int findMiddleIndex(int[] nums) {
-        int lSum=0;
-        int rSum=0;
-        int l=nums.length;
-        for (int i=0;i<l;i++){
-            rSum+=nums[i];
+        int n=nums.length;
+        int[] prefix=new int[n];
+        int[] suffix=new int[n];
+        prefix[0]=nums[0];
+        suffix[n-1]=nums[n-1];
+        for (int i=1;i<n ;i++){
+            prefix[i]=nums[i]+prefix[i-1];
         }
-        int prev=0;
-        rSum-=nums[0];
-        int i=1;
-        if (rSum==0) return 0;
-        while (i<l){
-            lSum+=nums[prev];
-            rSum-=nums[i];
-            if (lSum==rSum) return i;
-            prev=i;
-            i++;
+        for (int j=n-2;j>=0;j--){
+            suffix[j]=nums[j]+suffix[j+1];
         }
-        return -1;        
+     
+        for (int i=0;i<n;i++){
+            if (prefix[i]==suffix[i]) return i;
+        }
+
+        return -1;
+        
     }
 }
