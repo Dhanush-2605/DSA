@@ -1,10 +1,13 @@
 class Solution {
     public boolean canJump(int[] nums) {
-     int goal=nums.length-1;
-     for (int i=nums.length-1;i>=0;i--){
-         if (i+nums[i]>=goal) goal=i;
-     }
-     if (goal==0) return true;
-     return false;
+        int rechable=0;
+        int n=nums.length;
+        for (int i=0;i<n;i++){
+                if (rechable<i) return false;
+            int reach=i+nums[i];
+            if (reach>rechable) rechable=reach;
+        }
+        return true;
+        
     }
 }
