@@ -4,17 +4,11 @@ class Solution {
         for (int val:nums){
             if (map.containsKey(val)) map.put(val,map.get(val)+1);
             else map.put(val,1);
+        }        
+        for (Map.Entry<Integer,Integer> entry:map.entrySet()){
+            if (entry.getValue()%2!=0) return false;
         }
-        int n=nums.length;
-        int res=0;
-        for (Map.Entry<Integer,Integer> entry : map.entrySet()){ 
-            res+=(entry.getValue()/2);
-           
-        
-      }
-        if (res==(n/2)) return true;
-        return false;
-        
+        return true;
         
     }
 }
