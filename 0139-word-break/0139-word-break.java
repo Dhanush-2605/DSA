@@ -4,22 +4,20 @@ class Solution {
         for (String s:wordDict){
             map.put(s,1);
         } 
-        int[] dp=new int[S.length()];
-        Arrays.fill(dp,-1);
-        return recurse(0,map,S,dp)==1?true:false;
-     
-    }
-    int recurse(int ind,HashMap<String,Integer> map,String S,int[] dp){
-        if (ind==S.length()) return 1;
-        if (dp[ind]!=-1) return dp[ind];
-        String temp="";
-        for (int i=ind;i<S.length();i++){
-            temp+=S.charAt(i);
-            if (map.containsKey(temp)){
-                if (recurse(i+1,map,S,dp)==1) return dp[ind]=1;
+        int[] dp=new int[S.length()+1];
+        dp[dp.length-1]=1;
+        for (int ind=dp.length-2;ind>=0;ind--){
+           String temp="";
+            for (int i=ind;i<S.length();i++){
+                temp+=S.charAt(i);
+                if (map.containsKey(temp)){
+                        if (dp[i+1]==1) dp[ind]=1;;                        
             }
         }
-        return dp[ind]=0;
-        
+              
+        }
+        return dp[0]==1?true:false;
+     
     }
+ 
 }
