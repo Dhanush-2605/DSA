@@ -14,30 +14,31 @@
  * }
  */
 class Solution {
+    int moniter=-1;
+    int needCam=0;
+    int hasCam=1;
     int cam;
-    Set<TreeNode> set;
     public int minCameraCover(TreeNode root) {
         cam=0;
-        set=new HashSet<>();
-        set.add(null);
-        Dfs(root,null);
+    
+        int ans=Dfs(root);
+        if (ans==needCam) return cam+1;
+        
         return cam;
         
         
     }
-    void Dfs(TreeNode root,TreeNode parent){
-        if (root!=null){
-            
-            Dfs(root.left,root);
-            Dfs(root.right,root);
-            // System.out.println(parent.val);
-            if (parent==null && !set.contains(root) || !set.contains(root.left) || !set.contains(root.right)){
-                cam++;
-                set.add(root);
-                set.add(root.left);
-                set.add(root.right);
-                set.add(parent);
-            }
+    int Dfs(TreeNode root){
+        if (root==null) return moniter;
+        
+        int left=Dfs(root.left);
+        int right=Dfs(root.right);
+        if (left==needCam || right==needCam){
+            cam++;
+            return hasCam;
         }
+        if (left==hasCam || right==hasCam) return moniter;
+        return needCam;
+
     }
 }
