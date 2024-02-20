@@ -1,44 +1,14 @@
 class Solution {
-    public int missingNumber(int[] arr) {
-      cyclic(arr);
-      // System.out.println(Arrays.toString(arr));
-      for (int j=0;j<arr.length;j++){
-        if (j!=arr[j]){
-          return j;
+    public int missingNumber(int[] nums) {
+        int n=nums.length;
+        int tot=0;
+        for (int i=0;i<=n;i++){
+            tot+=i;
         }
-      }
-    return arr.length;
-
+        int cur=0;
+        for (int val:nums) cur+=val;
+        
+        return tot-cur;
+        
     }
-    static void cyclic(int[] arr){
-      int i=0;
-      while (i<arr.length){
-        int correctInd=arr[i];
-        if (arr[i]>=arr.length){
-          i++;
-        }
-        else if (i!=correctInd){
-          swap(arr,i,correctInd);
-            
-          
-        }
-        else{
-          i++;
-
-          }
-          
-        }
-      }
-        
-      
-    static void  swap(int[] arr,int start,int end){
-      int temp=arr[start];
-      arr[start]=arr[end];
-      arr[end]=temp;
-      
-      }
-        
-   
-
-
 }
