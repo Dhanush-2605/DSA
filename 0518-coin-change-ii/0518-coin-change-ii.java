@@ -1,23 +1,24 @@
 class Solution {
     public int change(int amount, int[] coins) {
-        int n=coins.length-1;
-        int[][] dp=new int[n+1][amount+1];
+         int[][] dp=new int[coins.length+1][amount+1];
         for (int[] arr:dp) Arrays.fill(arr,-1);
-        return recurse(n,coins,amount,dp);
-        
+        int ans=recurse(coins,amount,coins.length-1,dp);
+
+        // if (ans==In) return -1;
+        return ans;       
     }
-    int recurse(int ind,int[] coins,int amount,int[][] dp){
-        if (ind==0){
-            if (amount%coins[ind]==0) return 1;
-            else return 0;
-            
-        }
+    int recurse(int[] coins,int amount,int i,int[][] dp){
         if (amount==0) return 1;
-        if (dp[ind][amount]!=-1) return dp[ind][amount];
+        if (amount<0 || i<0 ) return 0;
+        if (dp[i][amount]!=-1) return dp[i][amount];
+         int take=0;
+        if (amount>=coins[i]){
+            take=recurse(coins,amount-coins[i],i,dp);
+        }
+        int notTake=recurse(coins,amount,i-1,dp);
         
-        int notTake=recurse(ind-1,coins,amount,dp);
-        int take=0;
-        if (amount>=coins[ind]) take=recurse(ind,coins,amount-coins[ind],dp);
-        return dp[ind][amount]=take+notTake;
+         return dp[i][amount]=take+notTake;
+
+
     }
 }
