@@ -1,22 +1,26 @@
 class Solution {
     public int numDecodings(String s) {
-                int[] dp=new int[s.length()+1];
-                Arrays.fill(dp,-1);
-
-        return recurse(s,0,dp);
+        int n = s.length();
+        if (n == 0) return 0;
         
-    }
-    int recurse(String s,int ind,int[] dp){
-        if (ind>=s.length()) return 1;
-        if (s.charAt(ind)=='0') return 0;
-        if (dp[ind]!=-1) return dp[ind];
+        int[] dp = new int[n + 1];
+        dp[0] = 1; 
         
-        int ways=recurse(s,ind+1,dp);
-        if (ind+1<s.length() && Integer.parseInt(s.substring(ind,ind+2))<=26){
-            ways+=recurse(s,ind+2,dp);
+        dp[1] = s.charAt(0) != '0' ? 1 : 0;
+        
+        for (int i = 2; i <= n; i++) {
+            if (s.charAt(i - 1) != '0') {
+                dp[i] += dp[i - 1];
+            }
             
-            
+            int twoDigit = Integer.parseInt(s.substring(i - 2, i));
+            if (twoDigit >= 10 && twoDigit <= 26) {
+                dp[i] += dp[i - 2];
+            }
         }
-        return dp[ind]=ways;
+        
+        return dp[n];
+        
     }
+
 }
